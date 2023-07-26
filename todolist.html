@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="todolost.css">
+
+</head>
+<body>
+        <header>
+            <h1>
+                Todo List
+            </h1>
+        </header>
+
+        <main>
+             <label class="checkAllTask">
+                <input onchange="checkAllTasks(this)" type="checkbox">
+                <span class="arrow_button"></span>
+            </label>
+            <form class="form-group"> 
+                <input type="text" class="taskInput" id="taskInput" placeholder="Что должно быть сделано?" required>                         
+            </form>
+
+            <ul class="task-list" id="task-list"></ul>
+            
+            <ul class="bottom_panel">
+                <li class="Items_left"> <span>Items left</span> <span class="number_of_tasks">0</span></li>
+                <li><button id="filterAll" type ="button" class="button filteAll">All</button></li>
+                <li><button id="filterActive" type ="button" class="button filteActive">Active</button></li>
+                <li><button id="filterCompleted" type ="button" class="button filterCompleted">Completed</button></li>
+                <li class="li_clear"><button id="clearTasks" class="button clear">Clear completed</button></li>
+            </ul>
+           
+
+        </main>
+    <script src="todolist.js"></script>    
+</body>
+</html>

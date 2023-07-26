@@ -1,0 +1,377 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html, body {
+    font-family: "Acrobat", "Arial","Comfortaa", "Web Serveroff", sans-serif;
+    width: 100%;
+    background-color:cornsilk;
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 120px;
+    text-align: center;
+    font-family: "Akrobat-Thin", sans-serif;
+    font-weight: 400;
+}
+
+main {
+    width: 100%;
+    max-width: 960px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 50px auto 200px;
+}
+
+.checkAllTask {
+    text-align: center;
+    position: relative;
+    top: 40px;
+    left: 20px;
+    display: none;
+    
+}
+
+.checkAllTask.show {
+    text-align: center;
+    position: relative;
+    top: 40px;
+    left: 20px;
+    display: inline-block;
+}
+
+.checkAllTask input {
+    position: absolute;
+    opacity: 0;
+}
+
+.arrow_button {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  transform: rotate(45deg);
+  border: solid 2px #a9a9a9;
+  border-top: none;
+  border-left: none;
+  pointer-events: none;
+}
+
+.checkAllTask input:checked + .arrow_button{
+    border: solid 2px black;
+    border-top: none;
+    border-left: none;
+}
+
+.form-group {
+    display: inline-block;
+    width: 100%;
+}
+
+.taskInput{
+    width: 100%;
+    padding: 0px 20px 0px 70px;
+    height: 70px;
+    font-size: 40px;
+    font-family: "Akrobat-Thin", sans-serif;
+    font-weight: 400;
+    border: none;
+    border-radius: 10px;
+    word-break:break-all;
+}
+
+/* Edit Task */
+ul li input[type=text] {
+    display: none;
+}
+  
+  ul li.editMode input[type=text] {
+    display: block;
+    height: 50px;
+    position: absolute;
+    width: calc(100% - 50px);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    top:0%;
+    right:0%;
+    font-family: "Akrobat-Thin", sans-serif;
+    font-size: 40px;
+    font-weight: 200;
+    color:#d2691e;
+    background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
+    background-image: -webkit-linear-gradient(315deg, #D1D1D1, #E5E6E4);
+}
+  
+  ul li.editMode input[type=checkbox] {
+    display: none;
+}
+
+ul li.editMode .delete svg{
+    display: none;
+}
+  
+  
+.task-list li{
+    position: relative;
+    width: 100%;
+    list-style-type: none;
+    font-family: "Akrobat-Thin", sans-serif;
+    font-weight: 400;
+    border: none;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 40px;
+    margin-top: 10px;
+    overflow: hidden;
+    overflow-wrap: break-word;  
+    padding-right: 50px;
+}
+
+li input[type=checkbox] {
+    width: 1px;
+    margin: 0 10px;
+    position: relative;
+}
+
+#task-list li input[type=checkbox] {
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 16px;
+}
+
+#task-list li input[type=checkbox]::after {
+    margin-left: -10px;
+    line-height: 1.5em;
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 100%;
+    background: #fff;
+}
+
+#task-list li input[type=checkbox]::after:checked {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 100%;
+    background: #fff;
+}
+
+#task-list li input[type=checkbox]:checked::after {
+    border: 1px solid gray;
+}
+
+#task-list li input[type=checkbox]:checked::before {
+    content: '\2713';
+    font-size: 18px;
+    position: absolute;
+    margin-left: -6px;
+    color: #a9a9a9;
+}
+
+#task-list li input[type=checkbox]:checked + label {
+    color: #a9a9a9;
+    text-decoration: line-through;
+    transition: all 200ms ease-in-out;
+}
+
+li label {
+    padding-left: 70px;
+    transition: all 200ms ease-in-out;
+}
+
+li input[type=text] {
+    display: none;
+}
+
+.delete {
+    position: absolute;
+    margin-top: auto;
+    right: 20px;
+    top: 15px;
+    border: none;
+    background-color: transparent;
+    display: none;
+}
+
+#task-list li:hover .delete {
+    display: block;
+}
+
+.delete svg {
+    pointer-events: none;
+}
+
+#task-list li .delete:hover svg {
+    fill:#a52a2a;
+    transition: all 200ms ease-in-out;
+}
+
+.task-list.show_active_tasks li {
+    display: block;
+}
+
+.task-list.show_active_tasks li.done {
+    display: none;
+}
+
+.task-list.show_completed_tasks li {
+    display: none;
+}
+
+.task-list.show_completed_tasks li.done {
+    display: block;
+}
+
+.bottom_panel {
+    width: 100%;
+    list-style-type: none;
+    padding: 20px;
+    display: none;
+    justify-content: space-between;
+}
+
+.bottom_panel.show {
+    display: flex;
+}
+
+.Items_left, .button, .clear {
+    font-family: "Akrobat-Thin", sans-serif;
+    font-size: 25px;
+    padding: 5px 10px;
+}
+
+.Items_left {
+    font-weight: 600;
+    width: 20%;
+}
+
+.button, .clear {
+    background-color: #d2691e;
+    border: none;
+    border-radius: 10px;
+    color: white;
+}
+
+.button:hover {
+    background-color:#ff8c00;
+}
+
+.li_clear {
+    padding-left: 10%;
+    width: 30%;
+}
+
+.clear {
+    visibility: hidden;
+}
+
+
+.clear.show{
+    visibility: visible;
+}
+
+@media (max-width: 920px) { 
+    h1 {
+        margin-top: 20px;
+        font-size: 80px;
+        font-weight: 200;
+    }
+
+    .taskInput{
+        width: 100%;
+        padding: 0px 20px 0px 50px;
+        height: 40px;
+        font-size: 20px;
+        font-family: "Akrobat-Thin", sans-serif;
+        font-weight: 400;
+        border-radius: 10px;
+    }
+
+    .checkAllTask.show {
+        text-align: center;
+        position: relative;
+        top: 30px;
+        left: 20px;
+        display: inline-block;
+    }
+    .arrow_button {
+        width: 12px;
+        height: 12px;
+        pointer-events: none;
+      }
+
+    .task-list li{
+        font-weight: 300;
+        border: none;
+        background-color: white;
+        border-radius: 10px;
+        font-size: 20px;
+        margin-top: 10px;
+        overflow: hidden;
+        overflow-wrap: break-word;  
+        padding-right: 50px;
+    }
+   
+    #task-list li input[type=checkbox] {
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        left: 16px;
+    }
+
+    #task-list li input[type=checkbox]::after {
+        width: 15px;
+        height: 15px;
+    }
+
+    #task-list li input[type=checkbox]:checked::before {
+        content: '\2713';
+        font-size: 15px;
+        margin-left: -8px;
+    }
+
+    li label {
+        padding-left: 50px;
+    }
+
+    .delete {
+        position: absolute;
+        margin-top: auto;
+        right: 20px;
+        top: 3px;
+        border: none;
+        background-color: transparent;
+        display: none;
+    }
+
+    .delete svg {
+        pointer-events: none;
+        width: 13px;
+    }
+
+    .Items_left, .button, .clear {
+        font-family: "Akrobat-Thin", sans-serif;
+        font-size: 15px;
+        padding: 2px 2px;
+    }
+
+    .Items_left {
+        font-weight: 600;
+        width: 20%;
+    }
+  
+    ul li.editMode input[type=text] {
+        font-size: 20px;
+        height: auto;
+    }
+}
