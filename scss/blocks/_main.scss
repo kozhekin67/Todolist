@@ -1,10 +1,3 @@
-/* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    outline: none;
-}
-
 html, body {
     font-family: "Acrobat", "Arial","Comfortaa", "Web Serveroff", sans-serif;
     width: 100%;
@@ -85,7 +78,6 @@ main {
 }
 
 /* Edit Task */
-/*
 ul li input[type=text] {
     display: none;
 }
@@ -127,6 +119,7 @@ ul li.editMode .delete svg{
     background-color: white;
     border-radius: 10px;
     font-size: 40px;
+    padding: 5px;
     margin-top: 10px;
     overflow: hidden;
     overflow-wrap: break-word;  
@@ -377,4 +370,3 @@ li input[type=text] {
         height: auto;
     }
 }
-*/
