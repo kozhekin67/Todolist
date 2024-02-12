@@ -24,9 +24,11 @@ nav, footer, header, aside {
 html, body {
   height: 100%;
   width: 100%;
+  font-family: "Acrobat", "Arial", "Comfortaa", "Web Serveroff", sans-serif;
   font-style: 100%;
   line-height: 1;
   font-style: 14px;
+  background-color: cornsilk;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -70,21 +72,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-html, body {
-  font-family: "Acrobat", "Arial", "Comfortaa", "Web Serveroff", sans-serif;
-  width: 100%;
-  background-color: cornsilk;
-}
-
-h1 {
+.header-block__title {
   margin-top: 50px;
   font-size: 120px;
   text-align: center;
   font-family: "Akrobat-Thin", sans-serif;
   font-weight: 400;
 }
+@media (width <= 920px) {
+  .header-block__title {
+    margin-top: 20px;
+    font-size: 80px;
+    font-weight: 200;
+  }
+}
 
-main {
+.main-block {
   width: 100%;
   max-width: 960px;
   padding-left: 20px;
@@ -93,28 +96,37 @@ main {
   position: relative;
 }
 
-.checkAllTask {
+.check-all-task {
   text-align: center;
   position: relative;
   top: 40px;
   left: 20px;
   display: none;
 }
-
-.checkAllTask.show {
+.check-all-task_show {
   text-align: center;
   position: relative;
   top: 40px;
   left: 20px;
   display: inline-block;
 }
-
-.checkAllTask input {
-  position: absolute;
-  opacity: 0;
+@media (width <= 920px) {
+  .check-all-task_show {
+    top: 30px;
+    left: 20px;
+  }
 }
-
-.arrow_button {
+.check-all-task__custom-button {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  cursor: pointer;
+}
+.check-all-task__arrow-button {
   width: 15px;
   height: 15px;
   display: inline-block;
@@ -123,9 +135,18 @@ main {
   border-top: none;
   border-left: none;
   pointer-events: none;
+  transition: transform 200ms ease-in;
 }
-
-.checkAllTask input:checked + .arrow_button {
+@media (width <= 920px) {
+  .check-all-task__arrow-button {
+    width: 12px;
+    height: 12px;
+  }
+}
+.check-all-task__custom-button:hover + .check-all-task__arrow-button {
+  transform: rotate(45deg) scale(1.2);
+}
+.check-all-task__custom-button:checked + .check-all-task__arrow-button {
   border: solid 2px black;
   border-top: none;
   border-left: none;
@@ -135,8 +156,7 @@ main {
   display: block;
   width: 100%;
 }
-
-.taskInput {
+.form-group__task-input {
   width: 100%;
   padding: 0px 20px 0px 70px;
   height: 70px;
@@ -147,17 +167,24 @@ main {
   border-radius: 10px;
   word-break: break-all;
 }
-
-/* Edit Task */
-ul li input[type=text] {
-  display: none;
+@media (width <= 920px) {
+  .form-group__task-input {
+    height: 40px;
+    font-size: 20px;
+    padding-left: 50px;
+  }
 }
 
-ul li.editMode input[type=text] {
+.list-item_edit-mode .edit-text {
   display: block;
-  height: 50px;
   position: absolute;
-  width: calc(100% - 50px);
+  padding-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 85%;
+  height: 100%;
   border: none;
   border-radius: 10px;
   overflow: hidden;
@@ -166,20 +193,26 @@ ul li.editMode input[type=text] {
   font-family: "Akrobat-Thin", sans-serif;
   font-size: 40px;
   font-weight: 200;
+  line-height: 1;
   color: #d2691e;
   background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
   background-image: -webkit-linear-gradient(315deg, #D1D1D1, #E5E6E4);
+  resize: none;
 }
-
-ul li.editMode input[type=checkbox] {
+@media (width <= 920px) {
+  .list-item_edit-mode .edit-text {
+    font-size: 20px;
+    height: auto;
+  }
+}
+.list-item_edit-mode .custom-button {
+  display: none;
+}
+.list-item_edit-mode .delete-img {
   display: none;
 }
 
-ul li.editMode .delete svg {
-  display: none;
-}
-
-.task-list li {
+.task-list__list-item {
   position: relative;
   width: 100%;
   list-style-type: none;
@@ -189,27 +222,34 @@ ul li.editMode .delete svg {
   background-color: white;
   border-radius: 10px;
   font-size: 40px;
-  padding: 5px;
+  padding: 5px 70px;
   margin-top: 10px;
   overflow: hidden;
   overflow-wrap: break-word;
-  padding-right: 50px;
 }
-
-li input[type=checkbox] {
+@media (width <= 920px) {
+  .task-list__list-item {
+    font-weight: 300;
+    border: none;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-top: 10px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+.task-list__custom-button {
   width: 1px;
-  margin: 0 10px;
-  position: relative;
-}
-
-#task-list li input[type=checkbox] {
   cursor: pointer;
   position: absolute;
-  top: 15px;
-  left: 16px;
+  left: 27px;
+  top: 50%;
+  transform: translateY(-60%);
 }
-
-#task-list li input[type=checkbox]::after {
+.task-list__custom-button::after {
   margin-left: -10px;
   line-height: 1.5em;
   content: "";
@@ -220,210 +260,131 @@ li input[type=checkbox] {
   border-radius: 100%;
   background: #fff;
 }
-
-#task-list li input[type=checkbox]::after:checked {
-  content: "";
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 1px solid black;
-  border-radius: 100%;
-  background: #fff;
+@media (width <= 920px) {
+  .task-list__custom-button::after {
+    width: 15px;
+    height: 15px;
+  }
 }
-
-#task-list li input[type=checkbox]:checked::after {
-  border: 1px solid gray;
-}
-
-#task-list li input[type=checkbox]:checked::before {
-  content: "✓";
-  font-size: 18px;
-  position: absolute;
-  margin-left: -6px;
-  color: #a9a9a9;
-}
-
-#task-list li input[type=checkbox]:checked + label {
-  color: #a9a9a9;
-  text-decoration: line-through;
+.task-list__task-text {
+  display: block;
+  width: 100%;
   transition: all 200ms ease-in-out;
 }
-
-li label {
-  padding-left: 70px;
-  transition: all 200ms ease-in-out;
-}
-
-li input[type=text] {
+.task-list__edit-text {
   display: none;
 }
-
-.delete {
+.task-list__delete {
   position: absolute;
   margin-top: auto;
-  right: 20px;
-  top: 15px;
+  right: 27px;
+  top: 50%;
+  transform: translateY(-40%);
   border: none;
   background-color: transparent;
   display: none;
 }
-
-#task-list li:hover .delete {
+.task-list__list-item:hover .task-list__delete {
   display: block;
 }
-
-.delete svg {
+.task-list__delete-img {
   pointer-events: none;
 }
-
-#task-list li .delete:hover svg {
+@media (width <= 920px) {
+  .task-list__delete-img {
+    width: 13px;
+  }
+}
+.task-list__delete:hover .task-list__delete-img {
   fill: #a52a2a;
   transition: all 200ms ease-in-out;
 }
 
-.task-list.show_active_tasks li {
-  display: block;
+.list-item_done .task-text_done {
+  color: #a9a9a9;
+  text-decoration: line-through;
+  transition: all 200ms ease-in-out;
+}
+.list-item_done .custom-button::after {
+  border: 1px solid gray;
+}
+.list-item_done .custom-button::before {
+  content: "✓";
+  font-size: 18px;
+  position: absolute;
+  margin-left: -7px;
+  color: #a9a9a9;
+}
+@media (width <= 920px) {
+  .list-item_done .custom-button::before {
+    font-size: 15px;
+    margin-left: -8px;
+  }
 }
 
-.task-list.show_active_tasks li.done {
+.task-list_show-active-tasks .list-item {
+  display: block;
+}
+.task-list_show-active-tasks .list-item_done {
   display: none;
 }
 
-.task-list.show_completed_tasks li {
+.task-list_show-completed-tasks .list-item {
   display: none;
 }
-
-.task-list.show_completed_tasks li.done {
+.task-list_show-completed-tasks .list-item_done {
   display: block;
 }
 
-.bottom_panel {
+.bottom-panel {
   width: 100%;
   list-style-type: none;
   padding: 20px;
   display: none;
   justify-content: space-between;
 }
-
-.bottom_panel.show {
+.bottom-panel_show {
   display: flex;
 }
-
-.Items_left, .button, .clear {
+.bottom-panel__item, .bottom-panel__button {
   font-family: "Akrobat-Thin", sans-serif;
   font-size: 25px;
   padding: 5px 10px;
+  border-radius: 2px;
 }
-
-.Items_left {
+@media (width <= 920px) {
+  .bottom-panel__item, .bottom-panel__button {
+    font-size: 15px;
+    padding: 3px;
+  }
+}
+.bottom-panel__item_left {
   font-weight: 600;
   width: 20%;
 }
-
-.button, .clear {
+.bottom-panel__item_clear {
+  padding-left: 10%;
+  width: 30%;
+}
+.bottom-panel__button {
   background-color: #d2691e;
   border: none;
   border-radius: 10px;
   color: white;
 }
-
-.button:hover {
-  background-color: #ff8c00;
+.bottom-panel__button_active {
+  background-color: #71BC78;
 }
-
-.li_clear {
-  padding-left: 10%;
-  width: 30%;
-}
-
-.clear {
+.bottom-panel__button_clear {
   visibility: hidden;
 }
-
-.clear.show {
+.bottom-panel__button_clear_show {
   visibility: visible;
 }
-
-@media (max-width: 920px) {
-  h1 {
-    margin-top: 20px;
-    font-size: 80px;
-    font-weight: 200;
-  }
-  .taskInput {
-    width: 100%;
-    padding: 0px 20px 0px 50px;
-    height: 40px;
-    font-size: 20px;
-    font-family: "Akrobat-Thin", sans-serif;
-    font-weight: 400;
-    border-radius: 10px;
-  }
-  .checkAllTask.show {
-    text-align: center;
-    position: relative;
-    top: 30px;
-    left: 20px;
-    display: inline-block;
-  }
-  .arrow_button {
-    width: 12px;
-    height: 12px;
-    pointer-events: none;
-  }
-  .task-list li {
-    font-weight: 300;
-    border: none;
-    background-color: white;
-    border-radius: 10px;
-    font-size: 20px;
-    margin-top: 10px;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    padding-right: 50px;
-  }
-  #task-list li input[type=checkbox] {
-    cursor: pointer;
-    position: absolute;
-    top: 5px;
-    left: 16px;
-  }
-  #task-list li input[type=checkbox]::after {
-    width: 15px;
-    height: 15px;
-  }
-  #task-list li input[type=checkbox]:checked::before {
-    content: "✓";
-    font-size: 15px;
-    margin-left: -8px;
-  }
-  li label {
-    padding-left: 50px;
-  }
-  .delete {
-    position: absolute;
-    margin-top: auto;
-    right: 20px;
-    top: 3px;
-    border: none;
-    background-color: transparent;
-    display: none;
-  }
-  .delete svg {
-    pointer-events: none;
-    width: 13px;
-  }
-  .Items_left, .button, .clear {
-    font-family: "Akrobat-Thin", sans-serif;
-    font-size: 15px;
-    padding: 2px 2px;
-  }
-  .Items_left {
-    font-weight: 600;
-    width: 20%;
-  }
-  ul li.editMode input[type=text] {
-    font-size: 20px;
-    height: auto;
-  }
+.bottom-panel__button:hover {
+  background-color: #ff8c00;
+  opacity: 0.5;
+}
+.bottom-panel__button:active {
+  background-color: #5F9EA0;
 }/*# sourceMappingURL=index.css.map */
