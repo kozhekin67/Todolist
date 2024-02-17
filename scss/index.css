@@ -5,7 +5,7 @@
   border: 0;
 }
 
-*, *:before, *:after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -22,16 +22,16 @@ nav, footer, header, aside {
 }
 
 html, body {
-  height: 100%;
   width: 100%;
-  font-family: "Acrobat", "Arial", "Comfortaa", "Web Serveroff", sans-serif;
+  height: 100%;
+  font-family: Acrobat, Arial, Comfortaa, "Web Serveroff", sans-serif;
   font-style: 100%;
-  line-height: 1;
   font-style: 14px;
+  line-height: 1;
   background-color: cornsilk;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
 }
 
 input, button, textarea {
@@ -74,10 +74,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .header-block__title {
   margin-top: 50px;
+  font-family: Akrobat-Thin, sans-serif;
   font-size: 120px;
-  text-align: center;
-  font-family: "Akrobat-Thin", sans-serif;
   font-weight: 400;
+  text-align: center;
 }
 @media (width <= 920px) {
   .header-block__title {
@@ -88,27 +88,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-block {
+  position: relative;
   width: 100%;
   max-width: 960px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px;
   margin: 50px auto 200px;
-  position: relative;
 }
 
 .check-all-task {
-  text-align: center;
   position: relative;
   top: 40px;
   left: 20px;
   display: none;
+  text-align: center;
 }
 .check-all-task_show {
-  text-align: center;
   position: relative;
   top: 40px;
   left: 20px;
   display: inline-block;
+  text-align: center;
 }
 @media (width <= 920px) {
   .check-all-task_show {
@@ -118,24 +117,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 .check-all-task__custom-button {
   position: absolute;
-  width: 25px;
-  height: 25px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
+  opacity: 0;
+  transform: translate(-50%, -50%);
 }
 .check-all-task__arrow-button {
+  display: inline-block;
   width: 15px;
   height: 15px;
-  display: inline-block;
-  transform: rotate(45deg);
+  pointer-events: none;
   border: solid 2px #a9a9a9;
   border-top: none;
   border-left: none;
-  pointer-events: none;
   transition: transform 200ms ease-in;
+  transform: rotate(45deg);
 }
 @media (width <= 920px) {
   .check-all-task__arrow-button {
@@ -147,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: rotate(45deg) scale(1.2);
 }
 .check-all-task__custom-button:checked + .check-all-task__arrow-button {
-  border: solid 2px black;
+  border: solid 2px #000;
   border-top: none;
   border-left: none;
 }
@@ -158,51 +157,47 @@ h1, h2, h3, h4, h5, h6 {
 }
 .form-group__task-input {
   width: 100%;
-  padding: 0px 20px 0px 70px;
   height: 70px;
+  padding: 0 20px 0 70px;
+  font-family: Akrobat-Thin, sans-serif;
   font-size: 40px;
-  font-family: "Akrobat-Thin", sans-serif;
   font-weight: 400;
+  word-break: break-all;
   border: none;
   border-radius: 10px;
-  word-break: break-all;
 }
 @media (width <= 920px) {
   .form-group__task-input {
     height: 40px;
-    font-size: 20px;
     padding-left: 50px;
+    font-size: 20px;
   }
 }
 
 .list-item_edit-mode .edit-text {
-  display: block;
   position: absolute;
-  padding-top: 5%;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
+  top: 0;
   right: 0;
+  left: 0;
+  display: block;
   width: 85%;
   height: 100%;
-  border: none;
-  border-radius: 10px;
+  padding-top: 5%;
+  margin: 0 auto;
   overflow: hidden;
-  top: 0%;
-  right: 0%;
-  font-family: "Akrobat-Thin", sans-serif;
+  font-family: Akrobat-Thin, sans-serif;
   font-size: 40px;
   font-weight: 200;
   line-height: 1;
   color: #d2691e;
-  background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
-  background-image: -webkit-linear-gradient(315deg, #D1D1D1, #E5E6E4);
   resize: none;
+  background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
+  border: none;
+  border-radius: 10px;
 }
 @media (width <= 920px) {
   .list-item_edit-mode .edit-text {
     font-size: 20px;
-    height: auto;
   }
 }
 .list-item_edit-mode .custom-button {
@@ -215,50 +210,43 @@ h1, h2, h3, h4, h5, h6 {
 .task-list__list-item {
   position: relative;
   width: 100%;
-  list-style-type: none;
-  font-family: "Akrobat-Thin", sans-serif;
-  font-weight: 400;
-  border: none;
-  background-color: white;
-  border-radius: 10px;
-  font-size: 40px;
   padding: 5px 70px;
   margin-top: 10px;
   overflow: hidden;
+  font-family: Akrobat-Thin, sans-serif;
+  font-size: 40px;
+  font-weight: 400;
   overflow-wrap: break-word;
+  list-style-type: none;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
 }
 @media (width <= 920px) {
   .task-list__list-item {
-    font-weight: 300;
-    border: none;
-    background-color: white;
-    border-radius: 10px;
+    padding: 5px 50px;
     font-size: 20px;
-    margin-top: 10px;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    padding-left: 50px;
-    padding-right: 50px;
+    font-weight: 300;
   }
 }
 .task-list__custom-button {
+  position: absolute;
+  top: 50%;
+  left: 27px;
   width: 1px;
   cursor: pointer;
-  position: absolute;
-  left: 27px;
-  top: 50%;
   transform: translateY(-60%);
 }
 .task-list__custom-button::after {
-  margin-left: -10px;
-  line-height: 1.5em;
-  content: "";
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 1px solid black;
-  border-radius: 100%;
+  margin-left: -10px;
+  line-height: 1.5em;
+  content: "";
   background: #fff;
+  border: 1px solid #000;
+  border-radius: 100%;
 }
 @media (width <= 920px) {
   .task-list__custom-button::after {
@@ -269,20 +257,19 @@ h1, h2, h3, h4, h5, h6 {
 .task-list__task-text {
   display: block;
   width: 100%;
-  transition: all 200ms ease-in-out;
 }
 .task-list__edit-text {
   display: none;
 }
 .task-list__delete {
   position: absolute;
-  margin-top: auto;
-  right: 27px;
   top: 50%;
-  transform: translateY(-40%);
-  border: none;
-  background-color: transparent;
+  right: 27px;
   display: none;
+  margin-top: auto;
+  background-color: transparent;
+  border: none;
+  transform: translateY(-40%);
 }
 .task-list__list-item:hover .task-list__delete {
   display: block;
@@ -297,28 +284,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 .task-list__delete:hover .task-list__delete-img {
   fill: #a52a2a;
-  transition: all 200ms ease-in-out;
+  transition: fill 200ms ease-in-out;
 }
 
 .list-item_done .task-text_done {
   color: #a9a9a9;
   text-decoration: line-through;
-  transition: all 200ms ease-in-out;
+  transition: color 200ms ease-in-out;
 }
 .list-item_done .custom-button::after {
-  border: 1px solid gray;
+  border: 1px solid #a9a9a9;
 }
 .list-item_done .custom-button::before {
-  content: "✓";
-  font-size: 18px;
   position: absolute;
   margin-left: -7px;
+  font-size: 18px;
   color: #a9a9a9;
+  content: "✓";
 }
 @media (width <= 920px) {
   .list-item_done .custom-button::before {
-    font-size: 15px;
     margin-left: -8px;
+    font-size: 15px;
   }
 }
 
@@ -337,40 +324,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bottom-panel {
-  width: 100%;
-  list-style-type: none;
-  padding: 20px;
   display: none;
   justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  list-style-type: none;
 }
 .bottom-panel_show {
   display: flex;
 }
 .bottom-panel__item, .bottom-panel__button {
-  font-family: "Akrobat-Thin", sans-serif;
-  font-size: 25px;
   padding: 5px 10px;
+  font-family: Akrobat-Thin, sans-serif;
+  font-size: 25px;
   border-radius: 2px;
 }
 @media (width <= 920px) {
   .bottom-panel__item, .bottom-panel__button {
-    font-size: 15px;
     padding: 3px;
+    font-size: 15px;
   }
 }
 .bottom-panel__item_left {
-  font-weight: 600;
   width: 20%;
+  font-weight: 600;
 }
 .bottom-panel__item_clear {
-  padding-left: 10%;
   width: 30%;
+  padding-left: 10%;
 }
 .bottom-panel__button {
+  color: #fff;
   background-color: #d2691e;
   border: none;
   border-radius: 10px;
-  color: white;
+  transition: opacity 200ms ease-in;
 }
 .bottom-panel__button_active {
   background-color: #71BC78;
@@ -382,9 +370,10 @@ h1, h2, h3, h4, h5, h6 {
   visibility: visible;
 }
 .bottom-panel__button:hover {
-  background-color: #ff8c00;
   opacity: 0.5;
 }
 .bottom-panel__button:active {
-  background-color: #5F9EA0;
+  background-color: #71BC78;
+  opacity: 0.5;
+  transition: background-color 200ms ease-in;
 }/*# sourceMappingURL=index.css.map */

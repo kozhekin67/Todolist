@@ -18,8 +18,7 @@
     position: relative;
     width: 100%;
     max-width: 960px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding: 0 20px;
     margin: 50px auto 200px;
 }
 
@@ -59,7 +58,7 @@
         width: 15px;
         height: 15px;
         pointer-events: none;
-        border: solid 2px #a9a9a9;
+        border: solid 2px $grey-color;
         border-top: none;
         border-left: none;
         transition: transform 200ms ease-in;
@@ -76,7 +75,7 @@
     }
 
     &__custom-button:checked + &__arrow-button {
-        border: solid 2px black;
+        border: solid 2px $black-color;
         border-top: none;
         border-left: none;
     }
@@ -108,30 +107,26 @@
 .list-item_edit-mode {
     & .edit-text {
         position: absolute;
-        top:0%;
+        top: 0;
         right: 0;
-        right:0%;
         left: 0;
         display: block;
         width: 85%;
         height: 100%;
         padding-top: 5%;
-        margin-right: auto;
-        margin-left: auto;
+        margin: 0 auto;
         overflow: hidden;
         font-family: Akrobat-Thin, sans-serif;
         font-size: 40px;
         font-weight: 200;
         line-height:1;
-        color:#d2691e;
+        color: $orange-color;
         resize:none;
-        background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
         background-image: linear-gradient(315deg, #D1D1D1, #E5E6E4);
         border: none;
         border-radius: 10px;
 
         @include tablet {
-            height: auto;
             font-size: 20px;
         }
     }
@@ -157,21 +152,14 @@
         font-weight: 400;
         overflow-wrap: break-word;
         list-style-type: none;
-        background-color: white;
+        background-color: $white-color;
         border: none;
         border-radius: 10px;  
 
         @include tablet { 
-            padding-right: 50px; 
-            padding-left: 50px;
-            margin-top: 10px;
-            overflow: hidden;
+            padding: 5px 50px;
             font-size: 20px;
             font-weight: 300;
-            overflow-wrap: break-word;
-            background-color: white;
-            border: none;
-            border-radius: 10px;
         }
     }
 
@@ -191,8 +179,8 @@
         margin-left: -10px;
         line-height: 1.5em;
         content: "";
-        background: #fff;
-        border: 1px solid black;
+        background: $white-color;
+        border: 1px solid $black-color;
         border-radius: 100%;
 
         @include tablet {
@@ -204,7 +192,6 @@
     &__task-text {
         display: block;
         width: 100%;
-        transition: all 200ms ease-in-out;
     }
 
     &__edit-text {
@@ -235,27 +222,27 @@
     }
 
     &__delete:hover &__delete-img {
-        fill:#a52a2a;
-        transition: all 200ms ease-in-out;
+        fill: $red-color;
+        transition: fill 200ms ease-in-out;
     }
 }
 
 .list-item_done {
     & .task-text_done {
-        color: #a9a9a9;
+        color: $grey-color;
         text-decoration: line-through;
-        transition: all 200ms ease-in-out;
+        transition: color 200ms ease-in-out;
     }
 
     & .custom-button::after {
-        border: 1px solid gray;
+        border: 1px solid $grey-color;
     }
      
     & .custom-button::before {
         position: absolute;
         margin-left: -7px;
         font-size: 18px;
-        color: #a9a9a9;
+        color: $grey-color;
         content: '\2713';
 
         @include tablet {
@@ -319,14 +306,15 @@
     }
 
     &__button {
-        color: white;
-        background-color: #d2691e;
+        color: $white-color;
+        background-color: $orange-color;
         border: none;
         border-radius: 10px;
+        transition: opacity 200ms ease-in;
     }
 
     &__button_active {
-        background-color: #71BC78;
+        background-color: $mint-color;
     }
 
 
@@ -339,11 +327,12 @@
     }
 
     &__button:hover {
-        background-color:#ff8c00;
         opacity: 0.5;
     }
 
     &__button:active {
-        background-color:#5F9EA0;
+        background-color: $mint-color;
+        opacity: 0.5;
+        transition: background-color 200ms ease-in;
     }
 }
