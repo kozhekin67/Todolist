@@ -1,24 +1,86 @@
-/*
-const taskList = document.querySelector('.task-list');
 const filterAllButton = document.querySelector('#filterAll');
 const filterActiveButton = document.querySelector('#filterActive');
 const filterCompletedButton = document.querySelector('#filterCompleted');
 
-const saveTasksToLocalStorage = () => {
-    const tasks = taskList.innerHTML;
-    localStorage.setItem('tasks', tasks);
+export let tasks = [];
+
+export const showBar = () => {
+    const listItem = document.querySelectorAll('.task-list__list-item');
+    const checkAllTask = document.querySelector('.check-all-task');
+    const bottomPanel = document.querySelector('.bottom-panel');
+
+    if (listItem.length === 0) {
+        bottomPanel.classList.remove('bottom-panel_show');
+        checkAllTask.classList.toggle('check-all-task_show');
+    } else {
+        bottomPanel.classList.add('bottom-panel_show');
+    }
 };
 
-if (localStorage.getItem('filterState') === 'active') {
-    taskList.innerHTML = localStorage.getItem('tasks');
-    filterActiveButton.click();
-} else if (localStorage.getItem('filterState') === 'completed') {
-    taskList.innerHTML = localStorage.getItem('tasks');
-    filterCompletedButton.click();
-} else if (localStorage.getItem('filterState') === 'all') {
-    taskList.innerHTML = localStorage.getItem('tasks');
-    filterAllButton.click();
-}
+export const itemsLeft = () => {
+    const checkAllcheckbox = document.querySelector('.check-all-task__custom-button');
+    const numberOfTask = document.querySelector('.number_of_tasks');
+    const labelDone = document.querySelectorAll('.list-item_done');
+    const labelNotDone = document.querySelectorAll('.list-item:not(.list-item_done)');
+    const clear = document.querySelector('.bottom-panel__button_clear');
 
-export default saveTasksToLocalStorage;
-*/
+    numberOfTask.innerHTML = labelNotDone.length;
+
+    labelNotDone.length === 0
+        ? (checkAllcheckbox.checked = true)
+        : (checkAllcheckbox.checked = false);
+
+    labelDone.length !== 0
+        ? clear.classList.add('bottom-panel__button_clear_show')
+        : clear.classList.remove('bottom-panel__button_clear_show');
+};
+
+export const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+};
+
+export const saveTaskList = () => {
+    if (localStorage.getItem('tasks')) {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+        showBar();
+        itemsLeft();
+    }
+};
+
+saveTaskList();
+
+export const saveTaskDone = (listItem, event) => {
+    const id = Number(listItem.id);
+    const task = tasks.find((task) => task.id === id);
+    if (event.target.closest('.list-item_done')) {
+        task.status = 'done';
+    } else {
+        task.status = 'active';
+    }
+};
+
+export const saveTaskDelete = (listItem) => {
+    const id = Number(listItem.id);
+    tasks = tasks.filter((task) => task.id !== id);
+};
+
+export const saveTaskAllDelete = () => {
+    tasks = tasks.filter((task) => task.status !== 'done');
+};
+
+window.addEventListener('DOMContentLoaded', saveTaskList);
+
+export const filterStateButton = () => {
+    const filterState = localStorage.getItem('filterState');
+    switch (filterState) {
+        case 'active':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterActiveButton.click();
+            break;
+        case 'completed':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterCompletedButton.click();
+            break;
+        case 'all':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterAllButton.click();
+            break;
+    }
+}

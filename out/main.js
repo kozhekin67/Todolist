@@ -40,62 +40,110 @@ const renderTasks = (task) => {
 
 /***/ }),
 
-/***/ "./js/showBarAnditemsLeft.js":
-/*!***********************************!*\
-  !*** ./js/showBarAnditemsLeft.js ***!
-  \***********************************/
+/***/ "./js/saveLocalStorage.js":
+/*!********************************!*\
+  !*** ./js/saveLocalStorage.js ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   filterStateButton: () => (/* binding */ filterStateButton),
 /* harmony export */   itemsLeft: () => (/* binding */ itemsLeft),
-/* harmony export */   showBar: () => (/* binding */ showBar)
+/* harmony export */   saveTaskAllDelete: () => (/* binding */ saveTaskAllDelete),
+/* harmony export */   saveTaskDelete: () => (/* binding */ saveTaskDelete),
+/* harmony export */   saveTaskDone: () => (/* binding */ saveTaskDone),
+/* harmony export */   saveTaskList: () => (/* binding */ saveTaskList),
+/* harmony export */   saveTasksToLocalStorage: () => (/* binding */ saveTasksToLocalStorage),
+/* harmony export */   showBar: () => (/* binding */ showBar),
+/* harmony export */   tasks: () => (/* binding */ tasks)
 /* harmony export */ });
-const bottomPanel = document.querySelector('.bottom-panel');
 const filterAllButton = document.querySelector('#filterAll');
 const filterActiveButton = document.querySelector('#filterActive');
 const filterCompletedButton = document.querySelector('#filterCompleted');
-const checkAllcheckbox = document.querySelector('.check-all-task__custom-button');
+
+let tasks = [];
 
 const showBar = () => {
-    let listItem = document.querySelectorAll('.task-list__list-item');
-    let checkAllTask = document.querySelector('.check-all-task');
+    const listItem = document.querySelectorAll('.task-list__list-item');
+    const checkAllTask = document.querySelector('.check-all-task');
+    const bottomPanel = document.querySelector('.bottom-panel');
 
-    if (listItem.length !== 0) {
-        bottomPanel.classList.add('bottom-panel_show');
-        checkAllTask.classList.add('check-all-task_show');
-    } else if (listItem.length === 0) {
+    if (listItem.length === 0) {
         bottomPanel.classList.remove('bottom-panel_show');
-        filterAllButton.classList.remove('bottom-panel__button_active');
-        filterActiveButton.classList.remove('bottom-panel__button_active');
-        filterCompletedButton.classList.remove('bottom-panel__button_active');
-        checkAllTask.classList.remove('check-all-task_show');
+        checkAllTask.classList.toggle('check-all-task_show');
     } else {
-        bottomPanel.classList.remove('bottom-panel_show');
-        checkAllTask.classList.remove('check-all-task_show');
+        bottomPanel.classList.add('bottom-panel_show');
     }
 };
 
 const itemsLeft = () => {
-    let numberOfTask = document.querySelector('.number_of_tasks');
-    let label = document.querySelectorAll('.list-item');
-    let labelNotDone = document.querySelectorAll('.list-item:not(.list-item_done)');
-    let clear = document.querySelector('.bottom-panel__button_clear');
+    const checkAllcheckbox = document.querySelector('.check-all-task__custom-button');
+    const numberOfTask = document.querySelector('.number_of_tasks');
+    const labelDone = document.querySelectorAll('.list-item_done');
+    const labelNotDone = document.querySelectorAll('.list-item:not(.list-item_done)');
+    const clear = document.querySelector('.bottom-panel__button_clear');
 
     numberOfTask.innerHTML = labelNotDone.length;
 
-    if (label.length === 0) {
-        clear.classList.remove('bottom-panel__button_clear_show');
-    } else if (labelNotDone.length === 0) {
-        checkAllcheckbox.checked = true;
-        clear.classList.add('bottom-panel__button_clear_show');
-    } else {
-        clear.classList.add('bottom-panel__button_clear_show');
-        checkAllcheckbox.checked = false;
+    labelNotDone.length === 0
+        ? (checkAllcheckbox.checked = true)
+        : (checkAllcheckbox.checked = false);
+
+    labelDone.length !== 0
+        ? clear.classList.add('bottom-panel__button_clear_show')
+        : clear.classList.remove('bottom-panel__button_clear_show');
+};
+
+const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+};
+
+const saveTaskList = () => {
+    if (localStorage.getItem('tasks')) {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+        showBar();
+        itemsLeft();
     }
 };
 
+saveTaskList();
 
+const saveTaskDone = (listItem, event) => {
+    const id = Number(listItem.id);
+    const task = tasks.find((task) => task.id === id);
+    if (event.target.closest('.list-item_done')) {
+        task.status = 'done';
+    } else {
+        task.status = 'active';
+    }
+};
+
+const saveTaskDelete = (listItem) => {
+    const id = Number(listItem.id);
+    tasks = tasks.filter((task) => task.id !== id);
+};
+
+const saveTaskAllDelete = () => {
+    tasks = tasks.filter((task) => task.status !== 'done');
+};
+
+window.addEventListener('DOMContentLoaded', saveTaskList);
+
+const filterStateButton = () => {
+    const filterState = localStorage.getItem('filterState');
+    switch (filterState) {
+        case 'active':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterActiveButton.click();
+            break;
+        case 'completed':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterCompletedButton.click();
+            break;
+        case 'all':
+            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterAllButton.click();
+            break;
+    }
+}
 
 /***/ })
 
@@ -163,9 +211,8 @@ var __webpack_exports__ = {};
   \********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createTask_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createTask.js */ "./js/createTask.js");
-/* harmony import */ var _showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./showBarAnditemsLeft.js */ "./js/showBarAnditemsLeft.js");
+/* harmony import */ var _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./saveLocalStorage.js */ "./js/saveLocalStorage.js");
 
-//import saveTasksToLocalStorage from './saveLocalStorage.js';
 
 
 const formGroup = document.querySelector('.form-group');
@@ -177,21 +224,7 @@ const filterActiveButton = document.querySelector('#filterActive');
 const filterCompletedButton = document.querySelector('#filterCompleted');
 filterAllButton.classList.add('bottom-panel__button_active');
 
-let tasks = [];
-
-const saveTaskList = () => {
-    if (localStorage.getItem('tasks')) {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-        (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-        (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-    }
-};
-
-saveTaskList ();
-
-window.addEventListener('DOMContentLoaded', saveTaskList);
-
-tasks.forEach((task) => {
+_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => {
     (0,_createTask_js__WEBPACK_IMPORTED_MODULE_0__["default"])(task);
 });
 
@@ -203,16 +236,16 @@ const newTask = (event) => {
         const newTask = {
             id: Date.now(),
             text: taskText,
-            status: "active",
+            status: 'active',
         };
         (0,_createTask_js__WEBPACK_IMPORTED_MODULE_0__["default"])(newTask);
-        tasks.push(newTask);
+        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.push(newTask);
         checkAllTask.classList.add('check-all-task_show');
         taskInput.value = '';
-        (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-        (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+        (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
+        (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
     }
-    saveTasksToLocalStorage();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
 };
 
 formGroup.addEventListener('submit', (event) => newTask(event));
@@ -225,33 +258,23 @@ const doneTask = (event) => {
     if (event.target.dataset.action === 'done') {
         let listItem = event.target.closest('.list-item');
         listItem.classList.toggle('list-item_done');
-        const id = Number(listItem.id);
-        const task = tasks.find((task) => task.id === id);
-        if (event.target.closest('.list-item_done')) {
-            task.status = 'done';
-        }
-        else {
-            task.status = 'active';
-        }
-        //console.log(id);
+        (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTaskDone)(listItem, event);
     }
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-    saveTasksToLocalStorage();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
 };
-
-// eslint-disable-next-line no-unused-vars
 
 const checkAllTasks = () => {
     const checkBoxAll = document.querySelectorAll('.custom-button');
-        if (checkAllcheckbox.checked === true) {
-            checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.add('list-item_done'));
-            tasks.forEach((task) => task.status = "done");
-        } else if (checkAllcheckbox.checked === false) {
-            checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.remove('list-item_done'));
-            tasks.forEach((task)=> task.status = "active");
-        }
-    saveTasksToLocalStorage(); 
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+    if (checkAllcheckbox.checked === true) {
+        checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.add('list-item_done'));
+        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.status = 'done'));
+    } else if (checkAllcheckbox.checked === false) {
+        checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.remove('list-item_done'));
+        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.status = 'active'));
+    }
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
 };
 
 checkAllcheckbox.addEventListener('change', () => checkAllTasks());
@@ -261,13 +284,11 @@ const deleteTask = (event) => {
     let listItem = event.target.closest('.task-list__list-item');
     if (event.target.dataset.action === 'delete') {
         listItem.remove();
-        console.log(tasks);
-        const id = Number(listItem.id);
-        tasks = tasks.filter((task) => task.id !== id);
+        (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTaskDelete)(listItem);
     }
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-    saveTasksToLocalStorage();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
 };
 
 taskList.addEventListener('click', (event) => deleteTask(event));
@@ -328,12 +349,11 @@ const clearAll = () => {
     let listItem = document.querySelectorAll('.list-item_done');
     if (listItem) {
         listItem.forEach((task) => task.remove());
-        tasks = tasks.filter((task) => task.status !== "done");
+        (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTaskAllDelete)();
     }
-    
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-    saveTasksToLocalStorage();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
 };
 
 clearButton.onclick = clearAll;
@@ -341,16 +361,18 @@ clearButton.onclick = clearAll;
 //editATask
 
 const editATask = (event) => {
-    if ((event.target.dataset.action === 'edit')) {
+    if (event.target.dataset.action === 'edit') {
         const listItem = event.target.closest('.task-list__list-item');
         const editInput = listItem.querySelector('.task-list__edit-text');
         const label = listItem.querySelector('.task-list__task-text');
         const containsClass = listItem.classList.contains('list-item_edit-mode');
         const id = Number(listItem.id);
-        const taskIndex = tasks.findIndex((task) => task.id === id);
+        const taskIndex = _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.findIndex((task) => task.id === id);
 
-        window.addEventListener('dblclick', () => {editInput.focus()});
-    
+        window.addEventListener('dblclick', () => {
+            editInput.focus();
+        });
+
         if (containsClass) {
             label.innerText = editInput.value;
         } else {
@@ -361,18 +383,18 @@ const editATask = (event) => {
             if (event.key === 'Enter') {
                 if (editInput.value === '') {
                     listItem.remove();
-                    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-                    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-                    tasks = tasks.filter((task) => task.id !== id);
+                    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
+                    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+                    _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks = _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.filter((task) => task.id !== id);
                 } else {
                     label.innerText = editInput.value;
                     listItem.classList.remove('list-item_edit-mode');
                     if (taskIndex !== -1) {
-                        tasks[taskIndex].text = editInput.value;
+                        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks[taskIndex].text = editInput.value;
                     }
                 }
             }
-            saveTasksToLocalStorage();
+            (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
         });
 
         window.addEventListener('keyup', function (event) {
@@ -386,44 +408,27 @@ const editATask = (event) => {
             if (event.target !== editInput) {
                 if (editInput.value === '') {
                     listItem.remove();
-                    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
-                    (0,_showBarAnditemsLeft_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
-                    tasks = tasks.filter((task) => task.id !== id);
+                    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.showBar)();
+                    (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
+                    _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks = _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.filter((task) => task.id !== id);
                 } else {
                     label.innerText = editInput.value;
                     listItem.classList.remove('list-item_edit-mode');
                     if (taskIndex !== -1) {
-                        tasks[taskIndex].text = editInput.value;
+                        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks[taskIndex].text = editInput.value;
                     }
-                    console.log(taskIndex);
                 }
                 listItem.classList.remove('list-item_edit-mode');
             }
-        saveTasksToLocalStorage();
+            (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
         });
         listItem.classList.toggle('list-item_edit-mode');
-    };
+    }
 };
 
 taskList.addEventListener('dblclick', (event) => editATask(event));
 
-function saveTasksToLocalStorage() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-const filterState = localStorage.getItem('filterState');
-
-switch (filterState) {
-    case 'active':
-        (tasks = JSON.parse(localStorage.getItem('tasks'))), filterActiveButton.click();
-        break;
-    case 'completed':
-        (tasks = JSON.parse(localStorage.getItem('tasks'))), filterCompletedButton.click();
-        break;
-    case 'all':
-        (tasks = JSON.parse(localStorage.getItem('tasks'))), filterAllButton.click();
-        break;
-}
+(0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.filterStateButton)();
 
 })();
 
