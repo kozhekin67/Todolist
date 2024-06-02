@@ -25,20 +25,20 @@ const showBar = () => {
 
 const itemsLeft = () => {
     let numberOfTask = document.querySelector('.number_of_tasks');
-    let labelDone = document.querySelectorAll('.list-item');
+    let label = document.querySelectorAll('.list-item');
     let labelNotDone = document.querySelectorAll('.list-item:not(.list-item_done)');
     let clear = document.querySelector('.bottom-panel__button_clear');
 
     numberOfTask.innerHTML = labelNotDone.length;
 
-    if (labelDone.length === 0) {
+    if (label.length === 0) {
         clear.classList.remove('bottom-panel__button_clear_show');
     } else if (labelNotDone.length === 0) {
-        checkAllcheckbox.checked === true;
+        checkAllcheckbox.checked = true;
         clear.classList.add('bottom-panel__button_clear_show');
     } else {
         clear.classList.add('bottom-panel__button_clear_show');
-        checkAllcheckbox.checked === false;
+        checkAllcheckbox.checked = false;
     }
 };
 

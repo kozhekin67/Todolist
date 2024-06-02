@@ -1,3 +1,4 @@
+/*
 const taskList = document.querySelector('.task-list');
 const filterAllButton = document.querySelector('#filterAll');
 const filterActiveButton = document.querySelector('#filterActive');
@@ -20,3 +21,4 @@ if (localStorage.getItem('filterState') === 'active') {
 }
 
 export default saveTasksToLocalStorage;
+*/
