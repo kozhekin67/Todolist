@@ -4,9 +4,7 @@ const filterCompletedButton = document.querySelector('#filterCompleted');
 
 export let tasks = [];
 
-const gettingTasks = () => {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
-};
+const gettingTasks = () => (tasks = JSON.parse(localStorage.getItem('tasks')));
 
 export const showBar = () => {
     const listItem = document.querySelectorAll('.list-item');
@@ -36,9 +34,7 @@ export const itemsLeft = () => {
         : clear.classList.remove('bottom-panel__button_clear_show');
 };
 
-export const saveTasksToLocalStorage = () => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-};
+export const saveTasksToLocalStorage = () => localStorage.setItem('tasks', JSON.stringify(tasks));
 
 export const saveTaskList = () => {
     if (localStorage.getItem('tasks')) {
@@ -65,9 +61,7 @@ export const saveTaskDelete = (listItem) => {
     tasks = tasks.filter((task) => task.id !== id);
 };
 
-export const saveTaskAllDelete = () => {
-    tasks = tasks.filter((task) => task.isActive === true);
-};
+export const saveTaskAllDelete = () => (tasks = tasks.filter((task) => task.isActive === true));
 
 window.addEventListener('DOMContentLoaded', saveTaskList);
 
