@@ -19,9 +19,7 @@ const filterActiveButton = document.querySelector('#filterActive');
 const filterCompletedButton = document.querySelector('#filterCompleted');
 filterAllButton.classList.add('bottom-panel__button_active');
 
-tasks.forEach((task) => {
-    renderTasks(task);
-});
+tasks.forEach((task) => renderTasks(task));
 
 const newTask = (event) => {
     event.preventDefault();
@@ -31,7 +29,7 @@ const newTask = (event) => {
         const newTask = {
             id: Date.now(),
             text: taskText,
-            status: 'active',
+            isActive: true,
         };
         renderTasks(newTask);
         tasks.push(newTask);
@@ -61,12 +59,12 @@ const doneTask = (event) => {
 
 const checkAllTasks = () => {
     const checkBoxAll = document.querySelectorAll('.custom-button');
-    if (checkAllcheckbox.checked === true) {
+    if (checkAllcheckbox.checked) {
         checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.add('list-item_done'));
-        tasks.forEach((task) => (task.status = 'done'));
-    } else if (checkAllcheckbox.checked === false) {
+        tasks.forEach((task) => (task.isActive = false));
+    } else {
         checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.remove('list-item_done'));
-        tasks.forEach((task) => (task.status = 'active'));
+        tasks.forEach((task) => (task.isActive = true));
     }
     saveTasksToLocalStorage();
     itemsLeft();
@@ -76,7 +74,7 @@ checkAllcheckbox.addEventListener('change', () => checkAllTasks());
 
 //delete Task
 const deleteTask = (event) => {
-    let listItem = event.target.closest('.task-list__list-item');
+    let listItem = event.target.closest('.list-item');
     if (event.target.dataset.action === 'delete') {
         listItem.remove();
         saveTaskDelete(listItem);
@@ -88,14 +86,14 @@ const deleteTask = (event) => {
 
 taskList.addEventListener('click', (event) => deleteTask(event));
 
+//filtres
+const availabilityOfTasks = taskList.children.length > 0;
 //filterAll
 
 const filterAll = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.remove('task-list_show-completed-tasks');
-        listItem.classList.remove('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.remove('task-list_show-completed-tasks');
+        taskList.classList.remove('task-list_show-active-tasks');
         filterAllButton.classList.add('bottom-panel__button_active');
         filterActiveButton.classList.remove('bottom-panel__button_active');
         filterCompletedButton.classList.remove('bottom-panel__button_active');
@@ -107,11 +105,9 @@ filterAllButton.onclick = filterAll;
 
 //filterActive
 const filterActive = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.remove('task-list_show-completed-tasks');
-        listItem.classList.add('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.remove('task-list_show-completed-tasks');
+        taskList.classList.add('task-list_show-active-tasks');
         filterAllButton.classList.remove('bottom-panel__button_active');
         filterActiveButton.classList.add('bottom-panel__button_active');
         filterCompletedButton.classList.remove('bottom-panel__button_active');
@@ -123,11 +119,9 @@ filterActiveButton.onclick = filterActive;
 
 //filterCompleted
 const filterCompleted = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.add('task-list_show-completed-tasks');
-        listItem.classList.remove('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.add('task-list_show-completed-tasks');
+        taskList.classList.remove('task-list_show-active-tasks');
         filterAllButton.classList.remove('bottom-panel__button_active');
         filterActiveButton.classList.remove('bottom-panel__button_active');
         filterCompletedButton.classList.add('bottom-panel__button_active');
@@ -157,16 +151,14 @@ clearButton.onclick = clearAll;
 
 const editATask = (event) => {
     if (event.target.dataset.action === 'edit') {
-        const listItem = event.target.closest('.task-list__list-item');
-        const editInput = listItem.querySelector('.task-list__edit-text');
-        const label = listItem.querySelector('.task-list__task-text');
+        const listItem = event.target.closest('.list-item');
+        const editInput = listItem.querySelector('.list-item__edit-text');
+        const label = listItem.querySelector('.list-item__task-text');
         const containsClass = listItem.classList.contains('list-item_edit-mode');
         const id = Number(listItem.id);
         const taskIndex = tasks.findIndex((task) => task.id === id);
 
-        window.addEventListener('dblclick', () => {
-            editInput.focus();
-        });
+        window.addEventListener('dblclick', () => editInput.focus());
 
         if (containsClass) {
             label.innerText = editInput.value;

@@ -16,17 +16,17 @@ const taskList = document.querySelector('.task-list');
 
 const renderTasks = (task) => {
     const statusDone =
-        task.status === 'done'
-            ? 'task-list__list-item list-item list-item_done'
-            : 'task-list__list-item list-item';
+        task.isActive
+            ? 'list-item'
+            : 'list-item list-item_done';
     const taskHTML = `
     
     <li class="${statusDone}" id="${task.id}">
-        <input type="checkbox" data-action="done" class="task-list__custom-button custom-button">
-        <span data-action="edit" class="task-list__task-text task-text task-text_done">${task.text}</span>
-        <textarea class="task-list__edit-text edit-text"></textarea>
-        <button class="task-list__delete" data-action="delete">
-            <svg class="task-list__delete-img delete-img" fill="#d2691e" width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <input type="checkbox" data-action="done" class="list-item__custom-button custom-button">
+        <span data-action="edit" class="list-item__task-text task-text_done">${task.text}</span>
+        <textarea class="list-item__edit-text edit-text"></textarea>
+        <button class="list-item__delete" data-action="delete">
+            <svg class="list-item__delete-img delete-img" fill="#d2691e" width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"></path>
             </svg>
         </button>
@@ -64,8 +64,12 @@ const filterCompletedButton = document.querySelector('#filterCompleted');
 
 let tasks = [];
 
+const gettingTasks = () => {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+};
+
 const showBar = () => {
-    const listItem = document.querySelectorAll('.task-list__list-item');
+    const listItem = document.querySelectorAll('.list-item');
     const checkAllTask = document.querySelector('.check-all-task');
     const bottomPanel = document.querySelector('.bottom-panel');
 
@@ -85,10 +89,7 @@ const itemsLeft = () => {
     const clear = document.querySelector('.bottom-panel__button_clear');
 
     numberOfTask.innerHTML = labelNotDone.length;
-
-    labelNotDone.length === 0
-        ? (checkAllcheckbox.checked = true)
-        : (checkAllcheckbox.checked = false);
+    checkAllcheckbox.checked = labelNotDone.length === 0;
 
     labelDone.length !== 0
         ? clear.classList.add('bottom-panel__button_clear_show')
@@ -101,7 +102,7 @@ const saveTasksToLocalStorage = () => {
 
 const saveTaskList = () => {
     if (localStorage.getItem('tasks')) {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
+        gettingTasks();
         showBar();
         itemsLeft();
     }
@@ -113,9 +114,9 @@ const saveTaskDone = (listItem, event) => {
     const id = Number(listItem.id);
     const task = tasks.find((task) => task.id === id);
     if (event.target.closest('.list-item_done')) {
-        task.status = 'done';
+        task.isActive = false;
     } else {
-        task.status = 'active';
+        task.isActive = true;
     }
 };
 
@@ -125,7 +126,7 @@ const saveTaskDelete = (listItem) => {
 };
 
 const saveTaskAllDelete = () => {
-    tasks = tasks.filter((task) => task.status !== 'done');
+    tasks = tasks.filter((task) => task.isActive === true);
 };
 
 window.addEventListener('DOMContentLoaded', saveTaskList);
@@ -134,16 +135,17 @@ const filterStateButton = () => {
     const filterState = localStorage.getItem('filterState');
     switch (filterState) {
         case 'active':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterActiveButton.click();
+            gettingTasks(), filterActiveButton.click();
             break;
         case 'completed':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterCompletedButton.click();
+            gettingTasks(), filterCompletedButton.click();
             break;
         case 'all':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterAllButton.click();
+            gettingTasks(), filterAllButton.click();
             break;
     }
-}
+};
+
 
 /***/ })
 
@@ -224,9 +226,7 @@ const filterActiveButton = document.querySelector('#filterActive');
 const filterCompletedButton = document.querySelector('#filterCompleted');
 filterAllButton.classList.add('bottom-panel__button_active');
 
-_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => {
-    (0,_createTask_js__WEBPACK_IMPORTED_MODULE_0__["default"])(task);
-});
+_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (0,_createTask_js__WEBPACK_IMPORTED_MODULE_0__["default"])(task));
 
 const newTask = (event) => {
     event.preventDefault();
@@ -236,7 +236,7 @@ const newTask = (event) => {
         const newTask = {
             id: Date.now(),
             text: taskText,
-            status: 'active',
+            isActive: true,
         };
         (0,_createTask_js__WEBPACK_IMPORTED_MODULE_0__["default"])(newTask);
         _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.push(newTask);
@@ -266,12 +266,12 @@ const doneTask = (event) => {
 
 const checkAllTasks = () => {
     const checkBoxAll = document.querySelectorAll('.custom-button');
-    if (checkAllcheckbox.checked === true) {
+    if (checkAllcheckbox.checked) {
         checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.add('list-item_done'));
-        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.status = 'done'));
-    } else if (checkAllcheckbox.checked === false) {
+        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.isActive = false));
+    } else {
         checkBoxAll.forEach((checkAll) => checkAll.parentNode.classList.remove('list-item_done'));
-        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.status = 'active'));
+        _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.forEach((task) => (task.isActive = true));
     }
     (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTasksToLocalStorage)();
     (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.itemsLeft)();
@@ -281,7 +281,7 @@ checkAllcheckbox.addEventListener('change', () => checkAllTasks());
 
 //delete Task
 const deleteTask = (event) => {
-    let listItem = event.target.closest('.task-list__list-item');
+    let listItem = event.target.closest('.list-item');
     if (event.target.dataset.action === 'delete') {
         listItem.remove();
         (0,_saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveTaskDelete)(listItem);
@@ -293,14 +293,14 @@ const deleteTask = (event) => {
 
 taskList.addEventListener('click', (event) => deleteTask(event));
 
+//filtres
+const availabilityOfTasks = taskList.children.length > 0;
 //filterAll
 
 const filterAll = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.remove('task-list_show-completed-tasks');
-        listItem.classList.remove('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.remove('task-list_show-completed-tasks');
+        taskList.classList.remove('task-list_show-active-tasks');
         filterAllButton.classList.add('bottom-panel__button_active');
         filterActiveButton.classList.remove('bottom-panel__button_active');
         filterCompletedButton.classList.remove('bottom-panel__button_active');
@@ -312,11 +312,9 @@ filterAllButton.onclick = filterAll;
 
 //filterActive
 const filterActive = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.remove('task-list_show-completed-tasks');
-        listItem.classList.add('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.remove('task-list_show-completed-tasks');
+        taskList.classList.add('task-list_show-active-tasks');
         filterAllButton.classList.remove('bottom-panel__button_active');
         filterActiveButton.classList.add('bottom-panel__button_active');
         filterCompletedButton.classList.remove('bottom-panel__button_active');
@@ -328,11 +326,9 @@ filterActiveButton.onclick = filterActive;
 
 //filterCompleted
 const filterCompleted = () => {
-    let listItem = document.querySelector('.task-list');
-
-    if (listItem.children.length > 0) {
-        listItem.classList.add('task-list_show-completed-tasks');
-        listItem.classList.remove('task-list_show-active-tasks');
+    if (availabilityOfTasks) {
+        taskList.classList.add('task-list_show-completed-tasks');
+        taskList.classList.remove('task-list_show-active-tasks');
         filterAllButton.classList.remove('bottom-panel__button_active');
         filterActiveButton.classList.remove('bottom-panel__button_active');
         filterCompletedButton.classList.add('bottom-panel__button_active');
@@ -362,16 +358,14 @@ clearButton.onclick = clearAll;
 
 const editATask = (event) => {
     if (event.target.dataset.action === 'edit') {
-        const listItem = event.target.closest('.task-list__list-item');
-        const editInput = listItem.querySelector('.task-list__edit-text');
-        const label = listItem.querySelector('.task-list__task-text');
+        const listItem = event.target.closest('.list-item');
+        const editInput = listItem.querySelector('.list-item__edit-text');
+        const label = listItem.querySelector('.list-item__task-text');
         const containsClass = listItem.classList.contains('list-item_edit-mode');
         const id = Number(listItem.id);
         const taskIndex = _saveLocalStorage_js__WEBPACK_IMPORTED_MODULE_1__.tasks.findIndex((task) => task.id === id);
 
-        window.addEventListener('dblclick', () => {
-            editInput.focus();
-        });
+        window.addEventListener('dblclick', () => editInput.focus());
 
         if (containsClass) {
             label.innerText = editInput.value;

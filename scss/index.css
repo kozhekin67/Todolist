@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-.task-list__list-item {
+.list-item {
   position: relative;
   width: 100%;
   padding: 5px 70px;
@@ -223,13 +223,16 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 10px;
 }
 @media (width <= 920px) {
-  .task-list__list-item {
+  .list-item {
     padding: 5px 50px;
     font-size: 20px;
     font-weight: 300;
   }
 }
-.task-list__custom-button {
+.list-item:hover .list-item__delete {
+  display: block;
+}
+.list-item__custom-button {
   position: absolute;
   top: 50%;
   left: 27px;
@@ -237,7 +240,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transform: translateY(-60%);
 }
-.task-list__custom-button::after {
+.list-item__custom-button::after {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -249,19 +252,19 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 100%;
 }
 @media (width <= 920px) {
-  .task-list__custom-button::after {
+  .list-item__custom-button::after {
     width: 15px;
     height: 15px;
   }
 }
-.task-list__task-text {
+.list-item__task-text {
   display: block;
   width: 100%;
 }
-.task-list__edit-text {
+.list-item__edit-text {
   display: none;
 }
-.task-list__delete {
+.list-item__delete {
   position: absolute;
   top: 50%;
   right: 27px;
@@ -271,18 +274,15 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
   transform: translateY(-40%);
 }
-.task-list__list-item:hover .task-list__delete {
-  display: block;
-}
-.task-list__delete-img {
+.list-item__delete-img {
   pointer-events: none;
 }
 @media (width <= 920px) {
-  .task-list__delete-img {
+  .list-item__delete-img {
     width: 13px;
   }
 }
-.task-list__delete:hover .task-list__delete-img {
+.list-item__delete:hover .list-item__delete-img {
   fill: #a52a2a;
   transition: fill 200ms ease-in-out;
 }

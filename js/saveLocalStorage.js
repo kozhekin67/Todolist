@@ -4,8 +4,12 @@ const filterCompletedButton = document.querySelector('#filterCompleted');
 
 export let tasks = [];
 
+const gettingTasks = () => {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+};
+
 export const showBar = () => {
-    const listItem = document.querySelectorAll('.task-list__list-item');
+    const listItem = document.querySelectorAll('.list-item');
     const checkAllTask = document.querySelector('.check-all-task');
     const bottomPanel = document.querySelector('.bottom-panel');
 
@@ -25,10 +29,7 @@ export const itemsLeft = () => {
     const clear = document.querySelector('.bottom-panel__button_clear');
 
     numberOfTask.innerHTML = labelNotDone.length;
-
-    labelNotDone.length === 0
-        ? (checkAllcheckbox.checked = true)
-        : (checkAllcheckbox.checked = false);
+    checkAllcheckbox.checked = labelNotDone.length === 0;
 
     labelDone.length !== 0
         ? clear.classList.add('bottom-panel__button_clear_show')
@@ -41,7 +42,7 @@ export const saveTasksToLocalStorage = () => {
 
 export const saveTaskList = () => {
     if (localStorage.getItem('tasks')) {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
+        gettingTasks();
         showBar();
         itemsLeft();
     }
@@ -53,9 +54,9 @@ export const saveTaskDone = (listItem, event) => {
     const id = Number(listItem.id);
     const task = tasks.find((task) => task.id === id);
     if (event.target.closest('.list-item_done')) {
-        task.status = 'done';
+        task.isActive = false;
     } else {
-        task.status = 'active';
+        task.isActive = true;
     }
 };
 
@@ -65,7 +66,7 @@ export const saveTaskDelete = (listItem) => {
 };
 
 export const saveTaskAllDelete = () => {
-    tasks = tasks.filter((task) => task.status !== 'done');
+    tasks = tasks.filter((task) => task.isActive === true);
 };
 
 window.addEventListener('DOMContentLoaded', saveTaskList);
@@ -74,13 +75,13 @@ export const filterStateButton = () => {
     const filterState = localStorage.getItem('filterState');
     switch (filterState) {
         case 'active':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterActiveButton.click();
+            gettingTasks(), filterActiveButton.click();
             break;
         case 'completed':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterCompletedButton.click();
+            gettingTasks(), filterCompletedButton.click();
             break;
         case 'all':
-            (tasks = JSON.parse(localStorage.getItem('tasks'))), filterAllButton.click();
+            gettingTasks(), filterAllButton.click();
             break;
     }
-}
+};
